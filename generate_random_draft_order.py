@@ -17,9 +17,7 @@ teams = [
     "Arnav",
 ]
 
-first_round = random.sample(teams, len(teams))
-second_round = first_round[::-1]
-combined_order = first_round + second_round
+order = random.sample(teams, len(teams))
 
-for team in combined_order:
+for team in order:
     print(team)
