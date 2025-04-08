@@ -100,6 +100,7 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
     
     draw.text((width//2, 1000), str(year), fill=text_red_color, font=year_font, anchor="mm")
     
+    image = image.resize((105, 150), Image.Resampling.LANCZOS)
     output_filename = f"qpfl_banners/{output_filename}_{year}.png"
     image.save(output_filename) 
     print(f"Banner saved as {output_filename}")
