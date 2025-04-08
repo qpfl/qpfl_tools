@@ -11,6 +11,7 @@ This repository holds tools to facilitate the running of an offline fantasy foot
 
 -    Schedule Generator
 -    Offline Scorer
+-    Generate Championship Banner
 
 ## Usage
 
