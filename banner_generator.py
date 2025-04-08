@@ -111,7 +111,6 @@ def regenerate_all_qpfl_banners(mini: bool = False):
     """
     Regenerate all banners for the QPFL.
     """
-    # List of years, ordinal numbers, and team names
     years = ["2020", "2021", "2022", "2023", "2024"]
     ordinals = ["1ST", "2ND", "3RD", "4TH", "5TH"]
     team_names = ["Sandusky's Secret", "Alvin, Dalvin, and the Chipmunks", "Mahomes' Beermeister", "Music City Jahmyricle", "All Roads Lead to Rome"]
