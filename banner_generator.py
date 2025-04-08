@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
-def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_path: str = "laurel.png", output_filename: str = "qpfl_banner.png"):
+def create_qpfl_banner(year: str, team_name: str, ordinal: str, league_name: str = "QPFL", laurel_path: str = "assets/laurel.png", output_filepath: str = "qpfl_banners", mini: bool = False):
     """
     Generate a QPFL Champion banner with customizable year, team name, and ordinal.
     
@@ -9,8 +9,9 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         year (str): The year to display on the banner
         team_name (str): The team name to display on the banner
         ordinal (str): The ordinal number (e.g., "5TH", "6TH") for the annual event
+        league_name (str): The name of the league (default is "QPFL")
         laurel_path (str): Path to the laurel wreath image
-        output_filename (str): Filename for the output image
+        output_filepath (str): Filename for the output image
     """
     # define colors and dimensions
     background_cream_color = (248, 240, 227)
@@ -46,7 +47,7 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         qpfl_shield_font = ImageFont.load_default()
     
     draw.text((width//2, 120), f"{ordinal} ANNUAL", fill=text_red_color, font=title_font, anchor="mm")
-    draw.text((width//2, 250), "QPFL", fill=text_red_color, font=champion_font, anchor="mm")
+    draw.text((width//2, 250), league_name, fill=text_red_color, font=champion_font, anchor="mm")
     
     shield_width = 200
     shield_height = 220
@@ -60,7 +61,7 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         (width//2 - shield_width//2, shield_top + shield_height - 40),
     ]
     draw.polygon(shield_points, fill=text_red_color)
-    draw.text((width//2, shield_top + shield_height//2 - 10), "QPFL", fill=background_cream_color, font=qpfl_shield_font, anchor="mm")
+    draw.text((width//2, shield_top + shield_height//2 - 10), league_name, fill=background_cream_color, font=qpfl_shield_font, anchor="mm")
     
     try:
         laurel_img = Image.open(laurel_path)
@@ -100,28 +101,34 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
     
     draw.text((width//2, 1000), str(year), fill=text_red_color, font=year_font, anchor="mm")
     
-    image = image.resize((105, 150), Image.Resampling.LANCZOS)
-    output_filename = f"qpfl_banners/{output_filename}_{year}.png"
-    image.save(output_filename) 
-    print(f"Banner saved as {output_filename}")
+    image = image.resize((105, 150), Image.Resampling.LANCZOS) if mini else image
+    output_filepath = f"{output_filepath}/{league_name}_banner_{year}.png"
+    image.save(output_filepath) 
+    print(f"Banner saved as {output_filepath}")
     return image
 
+def regenerate_all_qpfl_banners(mini: bool = False):
+    """
+    Regenerate all banners for the QPFL.
+    """
+    # List of years, ordinal numbers, and team names
+    years = ["2020", "2021", "2022", "2023", "2024"]
+    ordinals = ["1ST", "2ND", "3RD", "4TH", "5TH"]
+    team_names = ["Sandusky's Secret", "Alvin, Dalvin, and the Chipmunks", "Mahomes' Beermeister", "Music City Jahmyricle", "All Roads Lead to Rome"]
+
+    for year, ordinal, team_name in zip(years, ordinals, team_names):
+        create_qpfl_banner(year=year, team_name=team_name, ordinal=ordinal, mini=mini)
 
 if __name__ == "__main__":
-
     # Modify these variables to customize the banner
-    year = "2020"
-    ordinal = "1st"
-    team_name = "Sandusky's Secret"
+    # year = "2024"
+    # ordinal = "5th"
+    # team_name = "All Roads Lead to Rome"
 
-    output_filename = "qpfl_banner"
-    # Keep the laurel image in the same directory as this script
-    laurel_path = "assets/laurel.png"
-    team_name = team_name.upper()
-    create_qpfl_banner(
-        year=year, 
-        team_name=team_name, 
-        ordinal=ordinal,
-        laurel_path=laurel_path,
-        output_filename=output_filename
-    )
+    # create_qpfl_banner(
+    #     year=year, 
+    #     team_name=team_name, 
+    #     ordinal=ordinal,
+    #     output_filepath="qpfl_banners",
+    # )
+    regenerate_all_qpfl_banners(mini=False)
