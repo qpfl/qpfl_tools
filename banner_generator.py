@@ -13,9 +13,9 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         output_filename (str): Filename for the output image
     """
     # define colors and dimensions
-    background_cream_color = (248, 240, 227)
-    border_red_color = (128, 32, 32)
-    text_red_color = (128, 32, 32)
+    background_cream_color = (240, 248, 255)  # Alice blue
+    border_blue_color = (0, 35, 102)  # Royal blue
+    text_blue_color = (0, 35, 102)  # Royal blue
     width = 800
     height = 1200
     border_width = 20
@@ -23,14 +23,13 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
     image = Image.new('RGB', (width, height), background_cream_color)
     draw = ImageDraw.Draw(image)
     
-
     draw.polygon([
         (border_width, border_width),
         (width - border_width, border_width),
         (width - border_width, height - 250),
         (width // 2, height - border_width),
         (border_width, height - 250),
-    ], outline=border_red_color, width=border_width)
+    ], outline=border_blue_color, width=border_width)
     
     try:
         title_font = ImageFont.truetype("Times New Roman Bold.ttf", 100)
@@ -45,8 +44,8 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         year_font = ImageFont.load_default()
         qpfl_shield_font = ImageFont.load_default()
     
-    draw.text((width//2, 120), f"{ordinal} ANNUAL", fill=text_red_color, font=title_font, anchor="mm")
-    draw.text((width//2, 250), league, fill=text_red_color, font=champion_font, anchor="mm")
+    draw.text((width//2, 120), f"{ordinal} ANNUAL", fill=text_blue_color, font=title_font, anchor="mm")
+    draw.text((width//2, 250), league, fill=text_blue_color, font=champion_font, anchor="mm")
     
     shield_width = 200
     shield_height = 220
@@ -59,7 +58,7 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         (width//2, shield_top + shield_height),
         (width//2 - shield_width//2, shield_top + shield_height - 40),
     ]
-    draw.polygon(shield_points, fill=text_red_color)
+    draw.polygon(shield_points, fill=text_blue_color)
     draw.text((width//2, shield_top + shield_height//2 - 10), league, fill=background_cream_color, font=qpfl_shield_font, anchor="mm")
     
     try:
@@ -87,7 +86,7 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
     except Exception as e:
         print(f"Error loading laurel image: {e}")
     
-    draw.text((width//2, 620), "CHAMPION", fill=text_red_color, font=champion_font, anchor="mm")
+    draw.text((width//2, 620), "CHAMPION", fill=text_blue_color, font=champion_font, anchor="mm")
     
     lines = textwrap.wrap(team_name.upper(), width=15)
     y_text = 750
@@ -95,10 +94,10 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str  = "5TH", laurel_
         left, top, right, bottom = draw.textbbox((0, 0), line, font=team_name_font)
         text_height = bottom - top
         
-        draw.text((width//2, y_text), line, fill=text_red_color, font=team_name_font, anchor="mm")
+        draw.text((width//2, y_text), line, fill=text_blue_color, font=team_name_font, anchor="mm")
         y_text += text_height + 10
     
-    draw.text((width//2, 1000), str(year), fill=text_red_color, font=year_font, anchor="mm")
+    draw.text((width//2, 1000), str(year), fill=text_blue_color, font=year_font, anchor="mm")
     image = image.resize((105, 150), Image.Resampling.LANCZOS)
     output_filename = f"{output_filename}_{year}.png"
     image.save(output_filename) 
