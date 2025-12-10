@@ -90,7 +90,30 @@ def create_qpfl_banner(year: str, team_name: str, ordinal: str, league_name: str
     
     draw.text((width//2, 620), "CHAMPION", fill=text_red_color, font=champion_font, anchor="mm")
     
-    lines = textwrap.wrap(team_name.upper(), width=15)
+    # Calculate appropriate font size for team name to fit within banner
+    max_text_width = width - (border_width * 4)  # Leave padding inside border
+    team_name_upper = team_name.upper()
+    font_size = 80
+    
+    while font_size > 20:
+        try:
+            test_font = ImageFont.truetype("Times New Roman Bold.ttf", font_size)
+        except IOError:
+            test_font = ImageFont.load_default()
+        
+        lines = textwrap.wrap(team_name_upper, width=15)
+        fits = True
+        for line in lines:
+            left, top, right, bottom = draw.textbbox((0, 0), line, font=test_font)
+            if right - left > max_text_width:
+                fits = False
+                break
+        
+        if fits:
+            break
+        font_size -= 5
+    
+    team_name_font = test_font
     y_text = 750
     for line in lines:
         left, top, right, bottom = draw.textbbox((0, 0), line, font=team_name_font)
@@ -113,7 +136,8 @@ def regenerate_all_qpfl_banners(mini: bool = False):
     """
     years = ["2020", "2021", "2022", "2023", "2024"]
     ordinals = ["1ST", "2ND", "3RD", "4TH", "5TH"]
-    team_names = ["Sandusky's Secret", "Alvin, Dalvin, and the Chipmunks", "Mahomes' Beermeister", "Music City Jahmyricle", "All Roads Lead to Rome"]
+    # team_names = ["Sandusky's Secret", "Alvin, Dalvin, and the Chipmunks", "Mahomes' Beermeister", "Music City Jahmyricle", "All Roads Lead to Rome"]
+    team_names = ["Connor Reardon", "Griffin Ansel", "Griffin Ansel", "Spencer/Tim", "Griffin Ansel"]
 
     for year, ordinal, team_name in zip(years, ordinals, team_names):
         create_qpfl_banner(year=year, team_name=team_name, ordinal=ordinal, mini=mini)
