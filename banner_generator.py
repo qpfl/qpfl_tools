@@ -144,14 +144,14 @@ def regenerate_all_qpfl_banners(mini: bool = False):
 
 if __name__ == "__main__":
     # Modify these variables to customize the banner
-    # year = "2024"
-    # ordinal = "5th"
-    # team_name = "All Roads Lead to Rome"
+    year = "2025"
+    ordinal = "6th"
+    team_name = "Connor Kaminska"
 
-    # create_qpfl_banner(
-    #     year=year, 
-    #     team_name=team_name, 
-    #     ordinal=ordinal,
-    #     output_filepath="qpfl_banners",
-    # )
-    regenerate_all_qpfl_banners(mini=False)
+    create_qpfl_banner(
+        year=year, 
+        team_name=team_name, 
+        ordinal=ordinal,
+        output_filepath="qpfl_banners",
+    )
+    # regenerate_all_qpfl_banners(mini=False)
