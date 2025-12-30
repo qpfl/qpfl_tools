@@ -43,6 +43,18 @@ class ScheduleGenerator:
             "Tim/Spencer": "Stephen",
             "Stephen": "Tim/Spencer",
         }
+        self.abbreviations = {
+            "Griffin": "GSA",
+            "Anagh": "AST",
+            "Connor": "CWR",
+            "Kaminska": "CGK",
+            "Tim/Spencer": "S/T",
+            "Stephen": "SLS",
+            "Arnav": "AYP",
+            "Joe/Joe": "J/J",
+            "Ryan": "RPA",
+            "Bill": "WJK",
+        }
         self.schedule = {}
         self.previous_week = []
         # counts matchup numbers
@@ -405,7 +417,9 @@ class ScheduleGenerator:
                 string_of_week = " "
                 # create weekly string of matchups
                 for matchup in output_dict[key]:
-                    string_of_matchup = str(matchup[0]) + " versus " + str(matchup[1])
+                    team1_abbr = self.abbreviations.get(matchup[0], matchup[0])
+                    team2_abbr = self.abbreviations.get(matchup[1], matchup[1])
+                    string_of_matchup = team1_abbr + " versus " + team2_abbr
                     string_of_week = string_of_week + string_of_matchup + ", "
                 string_of_week = string_of_week.rstrip(", ")
                 output_dict[key] = string_of_week
@@ -443,7 +457,10 @@ class ScheduleGenerator:
             team_matchup_count_dicts = {}
             for team in self.teams:
                 team_dict = self._return_correct_team_dict(team=team)
-                team_matchup_count_dicts[team] = team_dict
+                # Convert team names to abbreviations in the matchup counts
+                abbr_dict = {self.abbreviations.get(k, k): v for k, v in team_dict.items()}
+                team_abbr = self.abbreviations.get(team, team)
+                team_matchup_count_dicts[team_abbr] = abbr_dict
             self.logger.info("Creating validation doc")
             with open("validate_schedule.txt", "w") as f:
                 for key in team_matchup_count_dicts:
